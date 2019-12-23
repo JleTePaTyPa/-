@@ -22,7 +22,7 @@ int integer()
 	{
 		cin.clear();
 		while (cin.get() != '\n');
-		cout << "Error!" << endl;
+		cout << "введите ещё раз" << endl;
 	}
 	return a;
 }
@@ -134,10 +134,12 @@ public:
 	int happy;
 	int happy_brother;
 	int nam_day;
+	int happy_girlfriend;
 	string name;
 	string girlfriend = "";
+	vector <string> inventar = { "tape"};
 
-	koza(int maney_2 = 1000, int brain_2 = 100, int hp_2 = 50, int happy_2 = 100, int happy_brother_2 = 100, int nam_day_2 = 0)
+	koza(int maney_2 = 1000, int brain_2 = 100, int hp_2 = 50, int happy_2 = 100, int happy_brother_2 = 100, int nam_day_2 = 0,int happy_girlfriend2=0)
 	{
 		maney = maney_2;
 		brain = brain_2;
@@ -149,6 +151,8 @@ public:
 		vector <string> names = { "Анатолий","Вениамин","Сергей","Дамир","Даня" };
 		name = names[rand() % names.size()];//выбор случайного имени из сиска
 		girlfriend = "";
+		happy_girlfriend = happy_girlfriend2;
+		inventar = { "tape" };
 	}
 	void kozaa() {
 		char swt;
@@ -567,25 +571,16 @@ void hapy_birthday(koza kz)
 			{
 
 				type_text("Вы решили не брать брата на день рождения, чем его займем в наше отсутствие?");
-				cout << "1. Чтение книг" << endl;
-				cout << "2. Поставить брату вашу любюимую кассету с крепким орешком Брюса Уиллиса" << endl;
-
-				cout << "3. Игрушка (если есть в инвентаре)" << endl;
-				if (kz.girlfriend != "")
-					cout << "4. Попросить девушку посидеть с братом" << endl;
+				{
+					cout << "1. Чтение книг" << endl;
+					cout << "2. Поставить брату вашу любюимую кассету с крепким орешком Брюса Уиллиса" << endl;
+					if (find(kz.inventar.begin(), kz.inventar.end(), "toy") == kz.inventar.end())
+						cout << "3. Игрушка (та самая игрушка из инвентаря)" << endl;				
+					if (kz.girlfriend != "")
+						cout << "4. Попросить девушку посидеть с братом" << endl;
 				while (true)
 				{
-					if (command == "1")
-					{
-						type_text("Мы оставили брата наедине с большой компьютерной энциклопедией. Возможно, стоило дать ему почитать что-то более безобидное...");
-						/*mciSendString("open \"00165.mp3\" type mpegvideo alias mp3", NULL, 0, NULL);
-						mciSendString("play mp3", NULL, 0, NULL);*/
-						type_text("Проходя под окном своей комнаты вы услышали шум, неожиданно перед вами приземляется то, что совсем недавно было большой компьютерной энциклопедией");
-						type_text("Вы поддались страху и пробежали не останавливаясь с добрых полмили, прежде чем осознали произошедшее. Возвращаться не было времени и ");
-						type_text("поставив в ежедневнике напоминание рассказать брату о пользе книг отправились на день рождения");
-
-						break;
-					}
+					
 					if (command == "1")
 					{
 						type_text("Мы оставили брата наедине с большой компьютерной энциклопедией. Возможно, стоило дать ему почитать что-то более безобидное...");
@@ -601,12 +596,40 @@ void hapy_birthday(koza kz)
 					}
 					if (command == "2")
 					{
-						type_text("");
 
+						type_text("вы дали свою любимую косету с \"крепким орешком с Брюсом Уиллисом\"");
+						type_text("косеты больше нет...");
+
+						kz.happy -= 40;
+						kz.maney -= 300;
+						cout << ("на покупку новой косеты вы потратили 300р");
+						
+						break;
+					}
+					if (command == "3"&& (find(kz.inventar.begin(), kz.inventar.end(), "toy") == kz.inventar.end()))
+					{
+						if (find(kz.inventar.begin(), kz.inventar.end(), "toy") == kz.inventar.end())
+						{
+							auto index = find(kz.inventar.begin(), kz.inventar.end(), "toy");
+							kz.inventar.erase(kz.inventar.begin + index);
+						}
+						else
+							cout << ("игрушки нет...");
+
+						type_text("вы дали свою любимую косету с \"крепким орешком с Брюсом Уиллисом\"");
+						type_text("косеты больше нет...");
+						kz.happy -= 40;
+						kz.maney -= 300;
+						cout << ("на покупку новой косеты вы потратили 300р");
 
 						break;
 					}
-
+					if (command == "4" && kz.girlfriend != "")
+					{
+						if (rand() % 100 >=50)
+							kz.happy_girlfriend -= 50;
+						
+					}
 				}
 				
 	}		
